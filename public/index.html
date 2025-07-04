@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Subscribe</title>
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <h1>Subscribe</h1>
+  <button onclick="subscribe('price_123')">Yearly</button>
+  <button onclick="subscribe('price_456')">Every 2 Months</button>
+
+  <script>
+    const stripe = Stripe("pk_test_YourPublicKey");
+
+    async function subscribe(priceId) {
+      const res = await fetch("/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId })
+      });
+
+      const data = await res.json();
+      stripe.redirectToCheckout({ sessionId: data.id });
+    }
+  </script>
+</body>
+</html>
