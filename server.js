@@ -19,8 +19,8 @@ app.post("/create-checkout-session", async (req, res) => {
     price: req.body.priceId, // or hardcoded
     quantity: 1,
   }],
-  success_url: `${YOUR_DOMAIN}/success.html`,
-  cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+  success_url: `${https://signature-reads-1.onrender.com/}/success.html`,
+  cancel_url: `${https://signature-reads-1.onrender.com/}/cancel.html`,
 
   // ✅ Add these fields:
   shipping_address_collection: {
