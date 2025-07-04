@@ -13,12 +13,26 @@ app.post("/create-checkout-session", async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: "https://yourdomain.com/success",
-      cancel_url: "https://yourdomain.com/cancel",
-    });
+  mode: 'subscription',
+  payment_method_types: ['card'],
+  line_items: [{
+    price: req.body.priceId, // or hardcoded
+    quantity: 1,
+  }],
+  success_url: `${YOUR_DOMAIN}/success.html`,
+  cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+
+  // ✅ Add these fields:
+  shipping_address_collection: {
+    allowed_countries: ['US'], // or add more countries
+  },
+  customer_creation: 'always',
+  customer_email: req.body.email, // optional: prefill email
+  metadata: {
+    order_source: 'checkout_page'
+  }
+});
+
 
     res.json({ id: session.id });
   } catch (err) {
