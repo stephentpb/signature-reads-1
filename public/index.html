@@ -1,27 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Subscribe</title>
-  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    button {
+      display: block;
+      margin: 1rem auto;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background-color: #6772e5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #5469d4;
+    }
+  </style>
 </head>
 <body>
-  <h1>Subscribe</h1>
-  <button onclick="subscribe('price_1RgYdaQBKtUMd8hmF0atZxZr')">Yearly</button>
-  <button onclick="subscribe('price_1RgYdaQBKtUMd8hmQ0882Y2w')">Every 2 Months</button>
+  <h1>Choose a Subscription Plan</h1>
 
-  <script>
-    const stripe = Stripe("pk_test_51RgYY8QBKtUMd8hmBvWGez2tIVXN91jcyf4kyqHEsIdXGM4L4QZoh4YJJdD4Sc2pofFXEWpQJFzSbfbodS5Xel9h00rpPDUt8S");
+  <button id="subscribe-yearly">Subscribe Yearly</button>
+  <button id="subscribe-bimonthly">Subscribe Every 2 Months</button>
 
-    async function subscribe(priceId) {
-      const res = await fetch("/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId })
-      });
+  <!-- Stripe.js (required for redirectToCheckout) -->
+  <script src="https://js.stripe.com/v3/"></script>
 
-      const data = await res.json();
-      stripe.redirectToCheckout({ sessionId: data.id });
-    }
-  </script>
+  <!-- Your custom checkout script -->
+  <script src="checkout.js"></script>
 </body>
 </html>
