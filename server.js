@@ -13,22 +13,28 @@ app.post("/create-checkout-session", async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.DOMAIN}/success.html`,
-      cancel_url: `${process.env.DOMAIN}/cancel.html`,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      success_url: `https://signature-reads-1.onrender.com/success.html`,
+      cancel_url: `https://signature-reads-1.onrender.com/cancel.html`,
       shipping_address_collection: {
-        allowed_countries: ["US"]
+        allowed_countries: ['US'],
       },
-      customer_creation: "always",
+      customer_creation: 'always',
       metadata: {
-        order_source: "checkout_page"
+        order_source: 'checkout_page'
       }
     });
 
     res.json({ id: session.id });
   } catch (err) {
+    console.error("Stripe session creation failed:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
